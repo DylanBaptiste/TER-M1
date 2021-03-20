@@ -128,8 +128,11 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# vscode
+# perso
 .vscode
-
-# images
 /images
+todo
+.Rproj.user
+.RData
+.Rhistory
+*.zip

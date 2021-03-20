@@ -1,0 +1,66 @@
+<head>
+	<!-- Load plotly.js into the DOM -->
+	<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+</head>
+
+<body>
+	<span>isomax</span>
+	<input id="isomax" type="range" min="1" max="10" step="1">
+	<span>isomin</span>
+	<input id="isomin" type="range" min="1" max="10" step="1">
+	<div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+	<!--<script src='./test.js'></script>-->
+	<script>
+		const resizedw = () => {
+			data = [{type, x, y, z,value, isomin, isomax, colorscale}]
+			Plotly.newPlot('myDiv', data);
+		}
+		var doit;
+		window.onresize = function(){ clearTimeout(doit); doit = setTimeout(resizedw, 100); };
+
+		let isomax = -100
+		let isomin = 100
+		let x = 	[]
+		let y = 	[]
+		let z = 	[]
+		let value = []
+		let colorscale = "Reds"
+		let type = "isosurface"
+		let data = [{type, x, y, z,value, isomin, isomax, colorscale}]
+		
+		Plotly.d3.csv('data.csv', function(err, rows){
+			function unpack(rows, key) {
+				return rows.map(function(row) {return parseFloat(row[key]); });
+			}
+			isomax = -100
+			isomin = 100
+			x = 	unpack(rows, 'x')
+			y = 	unpack(rows, 'y')
+			z = 	unpack(rows, 'z')
+			value = unpack(rows, 'value')
+			colorscale = "Reds"
+			type = "isosurface"
+			data = [{type, x, y, z,value, isomin, isomax, colorscale}]
+		})
+		
+		document.querySelector('#isomax').addEventListener('input', () => {
+			v = Number(document.querySelector('#isomax').value)
+			isomax = v <= isomin ? isomin + 1 : v
+			update()
+		}, false);
+
+		document.querySelector('#isomin').addEventListener('input', () => {
+			v = Number(document.querySelector('#isomin').value)
+			isomin = v >= isomax ? isomax - 1 : v
+			update()
+		}, false);
+		
+
+		Plotly.newPlot('myDiv', data);
+
+		const update = () =>{
+			myDiv.data = [{type, x, y, z,value, isomin, isomax, colorscale}]
+			Plotly.redraw(myDiv)
+		} 
+	</script>
+</body>
