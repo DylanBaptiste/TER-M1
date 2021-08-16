@@ -23,3 +23,4 @@ Description des parametres :
 ## Images:
 Source des images : http://pages.upf.pf/Sebastien.Chabrier/download/ImSynth.zip
 Les images ont été converties de .bmp à .pgm avec l'outil XnConvert : https://www.https://www.xnview.com/fr/xnconvert/.com/fr/xnconvert/
+ 
